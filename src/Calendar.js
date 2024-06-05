@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Calendar.css";
 
 const Calendar = () => {
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEvents();
@@ -20,21 +24,9 @@ const Calendar = () => {
     }
   };
 
-  const handleEventClick = async (clickInfo) => {
+  const handleEventClick = (clickInfo) => {
     const eventId = clickInfo.event.id;
-    if (
-      window.confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      try {
-        await axios.delete(`http://localhost:5000/events/${eventId}`);
-        clickInfo.event.remove();
-        setEvents(events.filter((event) => event._id !== eventId));
-      } catch (error) {
-        console.error("Error deleting event:", error);
-      }
-    }
+    navigate(`/edit-event/${eventId}`);
   };
 
   const getEventColor = (priority) => {
@@ -52,8 +44,13 @@ const Calendar = () => {
 
   return (
     <FullCalendar
-      plugins={[dayGridPlugin]}
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
+      headerToolbar={{
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
+      }}
       events={events.map((event) => ({
         ...event,
         id: event._id,

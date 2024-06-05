@@ -43,6 +43,18 @@ app.delete("/events/:id", async (req, res) => {
   }
 });
 
+app.put("/events/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedEvent = await Event.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.json(updatedEvent);
+  } catch (error) {
+    res.status(500).json({ error: "Error updating event" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
