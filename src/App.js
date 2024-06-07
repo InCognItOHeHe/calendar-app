@@ -1,8 +1,11 @@
+// src/App.js
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Calendar from "./Calendar";
 import EventForm from "./EventForm";
+import ResponseTimeChecker from "./ResponseTimeChecker";
 import "./App.css";
+import Logo from "./loogo.svg";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -16,6 +19,10 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <header>
+          <img src={Logo} alt="Logo" className="logo" /> {/* Wyświetl logo */}
+          <ResponseTimeChecker url="http://localhost:5000/events" />{" "}
+        </header>
         <nav>
           <ul>
             <li>
