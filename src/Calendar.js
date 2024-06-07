@@ -43,23 +43,37 @@ const Calendar = () => {
   };
 
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-      initialView="dayGridMonth"
-      headerToolbar={{
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay",
-      }}
-      events={events.map((event) => ({
-        ...event,
-        id: event._id,
-        title: `${event.title} (${event.time})`,
-        backgroundColor: getEventColor(event.priority),
-        borderColor: getEventColor(event.priority),
-      }))}
-      eventClick={handleEventClick}
-    />
+    <div className="App">
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/about">About</a>
+          </li>
+        </ul>
+      </nav>
+      <div id="calendar-container">
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
+          events={events.map((event) => ({
+            ...event,
+            id: event._id,
+            title: `${event.title} (${event.time})`,
+            backgroundColor: getEventColor(event.priority),
+            borderColor: getEventColor(event.priority),
+          }))}
+          eventClick={handleEventClick}
+        />
+      </div>
+    </div>
   );
 };
 
